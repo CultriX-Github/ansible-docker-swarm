@@ -1,0 +1,30 @@
+# Group for all hosts in the infrastructure
+int_swarm:
+  hosts:
+    manager-1:
+      ansible_host: 74.220.27.96
+      ansible_ssh_user: root
+    worker-1:
+      ansible_host: 74.220.29.20
+      ansible_ssh_user: root
+    worker-2:
+      ansible_host: 74.220.29.70
+      ansible_ssh_user: root
+
+# Group for manager nodes within the swarm
+int_swarm_managers:
+  hosts:
+    # Only include the manager nodes
+    manager-1:
+      ansible_host: 74.220.27.96
+      ansible_ssh_user: root
+
+# Group for worker nodes within the swarm
+int_swarm_workers:
+  hosts:
+      worker-1:
+      ansible_host: 74.220.29.20
+      ansible_ssh_user: root
+    worker-2:
+      ansible_host: 74.220.29.70
+      ansible_ssh_user: root
