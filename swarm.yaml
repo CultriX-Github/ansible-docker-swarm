@@ -157,13 +157,7 @@
   hosts: int_swarm_managers[0]  # Again targets the first manager for GlusterFS configuration
   become: true
   tasks:
-    - name: Check if GlusterFS volume staging-gfs exists  # Checks for the existence of a GlusterFS volume
-      ansible.builtin.shell: gluster volume info staging-gfs
-      register: volume_info
-      ignore_errors: true
-      changed_when: false
-
-    - name: Probe GlusterFS peers and create volume  # Probes peers and creates a GlusterFS volume if not existing
+      - name: Probe GlusterFS peers and create volume  # Probes peers and creates a GlusterFS volume if not existing
       block:
         - name: Probe peers for GlusterFS
           ansible.builtin.shell: gluster peer probe {{ item }}
@@ -189,6 +183,11 @@
           when: volume_info.rc != 0
           register: volume_start
           changed_when: "'volume start: success' in volume_start.stdout"
+    - name: Check if GlusterFS volume staging-gfs exists  # Checks for the existence of a GlusterFS volume
+      ansible.builtin.shell: gluster volume info staging-gfs
+      register: volume_info
+      ignore_errors: true
+      changed_when: false
 
 - name: Mount GlusterFS on all Swarm nodes
   hosts: int_swarm_managers, int_swarm_workers  # Targets both managers and workers for GlusterFS mount
