@@ -160,7 +160,6 @@
         - name: Probe peers for GlusterFS
           ansible.builtin.shell: gluster peer probe {{ item }}
           loop: "{{ groups['int_swarm'] }}"
-          when: volume_info.rc != 0
           register: peer_probe
           changed_when: "'peer probe: success' in peer_probe.stdout"
 
@@ -172,13 +171,11 @@
               {{ hostvars[host]['ansible_default_ipv4']['address'] }}:/gluster/volume1
               {% endfor %}
               force
-          when: volume_info.rc != 0
           register: volume_create
           changed_when: "'volume create: success' in volume_create.stdout"
 
         - name: Start GlusterFS volume
           ansible.builtin.shell: gluster volume start staging-gfs
-          when: volume_info.rc != 0
           register: volume_start
           changed_when: "'volume start: success' in volume_start.stdout"
         - name: Check if GlusterFS volume staging-gfs exists  # Checks for the existence of a GlusterFS volume
