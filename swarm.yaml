@@ -183,11 +183,11 @@
           when: volume_info.rc != 0
           register: volume_start
           changed_when: "'volume start: success' in volume_start.stdout"
-    - name: Check if GlusterFS volume staging-gfs exists  # Checks for the existence of a GlusterFS volume
-      ansible.builtin.shell: gluster volume info staging-gfs
-      register: volume_info
-      ignore_errors: true
-      changed_when: false
+        - name: Check if GlusterFS volume staging-gfs exists  # Checks for the existence of a GlusterFS volume
+          ansible.builtin.shell: gluster volume info staging-gfs
+          register: volume_info
+          ignore_errors: true
+          changed_when: false
 
 - name: Mount GlusterFS on all Swarm nodes
   hosts: int_swarm_managers, int_swarm_workers  # Targets both managers and workers for GlusterFS mount
